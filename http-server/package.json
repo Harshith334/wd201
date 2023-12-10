@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {
   "name": "http-server",
   "version": "1.0.0",
@@ -10,3 +11,16 @@
   "author": "Harshith334",
   "license": "ISC"
 }
+=======
+{
+  "name": "http-server",
+  "version": "1.0.0",
+  "description": "\"server page\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Harshith333 <somaharshithkumar334@gmail.com>",
+  "license": "ISC"
+}
+>>>>>>> Stashed changes
