@@ -4,7 +4,6 @@ const http = require("http");
 let homepage;
 let registrationform;
 let projectpage;
-//to read home.html
 fs.readFile(
     "home.html",
     (err, home) => {
@@ -13,7 +12,6 @@ fs.readFile(
     }
 )
 
-//to read project.html
 fs.readFile(
     "project.html",
     (err, project) => {
@@ -22,7 +20,6 @@ fs.readFile(
     }
 )
 
-//to read registrationform.html
 fs.readFile(
     "registration.html",
     (err, registration) => {
@@ -33,7 +30,6 @@ fs.readFile(
 const args = require("minimist")(process.argv.slice(2));
 const portinput = args.port;
 
-//To check If Number is Provided or not
 if (portinput === undefined) {
     console.log("Enter A Valid Port Number");
 } else {
