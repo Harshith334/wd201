@@ -1,81 +1,87 @@
+
+const today = new Date().toISOString().substring(0, 10);
 const todoList = () => {
-    const all = [];
+    all = []
+
     const add = (todoItem) => {
-      all.push(todoItem);
-    };
+        all.push(todoItem)
+    }
+
     const markAsComplete = (index) => {
-      all[index].completed = true;
-    };
-  
+        all[index].completed = true
+    }
+
     const overdue = () => {
-      // Write the date check condition here and return the array
-      // of overdue items accordingly.
-  
-      let dateToday = new Date();
-      const today = new Date(formattedDate(dateToday)).getTime();
-      const overdueList = all.filter((item) => {
-        let givenDate = new Date(item.dueDate).getTime();
-        if (givenDate < today) return true;
-      });
-      return overdueList;
+        const today = new Date().toLocaleDateString("en-CA");
+
+        const overdueTasks = all.filter((item) => {
+            return item.dueDate < today; 
+        });
+
+        return overdueTasks;
     };
-  
+
+
+
+
     const dueToday = () => {
-      // Write the date check condition here and return the array
-      // of todo items that are due today accordingly.
-      let dateToday = new Date();
-      const today = new Date(formattedDate(dateToday)).getTime();
-      const dueTodayList = all.filter((item) => {
-        let givenDate = new Date(item.dueDate).getTime();
-        if (givenDate == today) return true;
-      });
-      return dueTodayList;
-    };
-  
+        return all.filter(
+            (item) => item.dueDate === new Date().toLocaleDateString("en-CA")
+        );
+    }
+
     const dueLater = () => {
-      // Write the date check condition here and return the array
-      // of todo items that are due later according.
-      let dateToday = new Date();
-      const today = new Date(formattedDate(dateToday)).getTime();
-      const dueLaterList = all.filter((item) => {
-        let givenDate = new Date(item.dueDate).getTime();
-        if (givenDate > today) return true;
-      });
-      return dueLaterList;
-    };
-  
+        return all.filter(
+            (item) => item.dueDate > new Date().toLocaleDateString("en-CA")
+        );
+    }
+
     const toDisplayableList = (list) => {
-      // Format the To-Do list here, and return the output string
-      // as per the format given above.
-      let res = "";
-      list.forEach((item) => {
-        res += `[${item.completed ? "x" : " "}] ${item.title} ${
-          new Date(item.dueDate).getTime() ==
-          new Date(formattedDate(new Date())).getTime()
-            ? ""
-            : item.dueDate
-        }\n`;
-      });
-      return res.substring(0, res.length - 1);
-    };
-  
+        const dsl = [];
+        list.forEach((element) => {
+            if (element.dueDate === today) {
+                if (element.completed === true) {
+                    const a = "[x] " + element.title;
+                    dsl.push(a);
+                } else {
+                    const a = "[ ] " + element.title;
+                    dsl.push(a);
+                }
+            } else {
+                if (element.completed === true) {
+                    const a = "[x] " + element.title + " " + element.dueDate;
+                    dsl.push(a);
+                } else {
+                    const a = "[ ] " + element.title + " " + element.dueDate;
+                    dsl.push(a);
+                }
+            }
+        });
+        let g = "";
+        for (let i = 0; i < dsl.length; i++) {
+            obj = dsl[i];
+            if (i === 0) {
+                g = g + obj;
+            } else {
+                g = g + "\n" + obj;
+            }
+        }
+        return g;
+    }
+
     return {
-      all,
-      add,
-      markAsComplete,
-      overdue,
-      dueToday,
-      dueLater,
-      toDisplayableList,
+        all,
+        add,
+        markAsComplete,
+        overdue,
+        dueToday,
+        dueLater,
+        toDisplayableList
     };
-  };
-  
-  // // ####################################### #
-  // // DO NOT CHANGE ANYTHING BELOW THIS LINE. #
-  // // ####################################### #
-  
-  
-  const formattedDate = (d) => {
-    return d.toISOString().split("T")[0];
-  };
-  module.exports = todoList;
+};
+
+// ####################################### #
+// DO NOT CHANGE ANYTHING BELOW THIS LINE. #
+// ####################################### #
+
+module.exports = todoList;

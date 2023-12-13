@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1"
+  },
+  "scripts": {
+    "prepare": "cd .. && husky install todo-cli/.husky"
+  },
+  "name": "todo-cli",
+  "version": "1.0.0",
+  "description": "\"My todo-cli application\"",
+  "main": "todo.js",
+  "author": "Harshith333 <somaharshithkumar334@gmail.com>",
+  "license": "ISC"
+}
