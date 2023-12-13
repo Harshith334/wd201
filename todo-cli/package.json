@@ -5,7 +5,9 @@
     "prettier": "^3.1.1"
   },
   "scripts": {
-    "prepare": "cd .. && husky install todo-cli/.husky"
+    "prepare": "cd .. && husky install todo-cli/.husky",
+    "test": "jest"
+    
   },
   "name": "todo-cli",
   "version": "1.0.0",
