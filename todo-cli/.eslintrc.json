@@ -8,11 +8,6 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "rules": {},
-    "lint-staged": {
-        "*.js": [
-          "eslint",
-          "prettier --write ."
-        ]
-      }
+    "rules": {
+    }
 }

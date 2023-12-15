@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 { "name": "hello-world", "version": "1.0.0", "main": "index.js" }
-=======
-{ "name": "hello-world", "version": "1.0.0", "main": "index.js" }
->>>>>>> origin/main
