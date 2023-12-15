@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const db = require("../models");
 
@@ -8,7 +7,7 @@ const getJSDate = (days) => {
   }
   const today = new Date();
   const oneDay = 60 * 60 * 24 * 1000;
-  return new Date(today.getTime() + days * oneDay).toISOString().split("T")[0];
+  return new Date(today.getTime() + days * oneDay)
 }
 
 describe("Tests for functions in todo.js", function () {
