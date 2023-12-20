@@ -1,48 +1,80 @@
 /* eslint-disable no-undef */
 const todoList = () => {
-    all = []
+    const all = [];
     const add = (todoItem) => {
-      all.push(todoItem)
-    }
-    const markAsComplete = (index) => {
-      all[index].completed = true
-    }
-  
-    const overdue = () => {
-      const today = new Date().toISOString().split("T")[0];
-      return all.filter(item => item.dueDate < today);
-    }
-  
-    const dueToday = () => {
-      const today = new Date().toISOString().split("T")[0];
-      return all.filter(item =>item.dueDate === today);
-    }
-  
-    const dueLater = () => {
-      const today = new Date().toISOString().split("T")[0];
-      return all.filter(item =>  item.dueDate > today);
-    }
-  
-    const toDisplayableList = (todoList ) => {
-      let displayableList = "";
-      todoList .forEach(item => {
-        const status = item.completed ? "[x]" : "[ ]";
-        const title = item.title;
-        const dueDate = item.dueDate === today ? "" : ` ${item.dueDate}`;
-        displayableList += `${status} ${title}${dueDate}\n`;
-      });
-      return displayableList;
-    }
-  
-    return {
-      all,
-      add,
-      markAsComplete,
-      overdue,
-      dueToday,
-      dueLater,
-      toDisplayableList
+        all.push(todoItem);
     };
-  };
-  
-  module.exports=todoList;
+    const markAsComplete = (index) => {
+        if (index >= 0 && index < all.length) {
+            all[index].completed = true;
+        } else {
+            throw new Error('Invalid index');
+        }
+    };
+
+    const overdue = () => {
+        return all.filter(
+            (item) => item.dueDate < new Date().toLocaleDateString("en-CA")
+        );
+    };
+
+    const dueToday = () => {
+        return all.filter(
+            (item) => item.dueDate === new Date().toLocaleDateString("en-CA")
+        );
+    };
+
+    const dueLater = () => {
+        return all.filter(
+            (item) => item.dueDate > new Date().toLocaleDateString("en-CA")
+        );
+    };
+
+    const toDisplayableList = (list) => {
+        const dsl = [];
+        list.forEach((element) => {
+            if (element.dueDate === today) {
+                if (element.completed === true) {
+                    const a = "[x] " + element.title;
+                    dsl.push(a);
+                } else {
+                    const a = "[ ] " + element.title;
+                    dsl.push(a);
+                }
+            } else {
+                if (element.completed === true) {
+                    const a = "[x] " + element.title + " " + element.dueDate;
+                    dsl.push(a);
+                } else {
+                    const a = "[ ] " + element.title + " " + element.dueDate;
+                    dsl.push(a);
+                }
+            }
+        });
+        let g = "";
+        for (let i = 0; i < dsl.length; i++) {
+            // eslint-disable-next-line no-undef
+            obj = dsl[i];
+            if (i === 0) {
+                // eslint-disable-next-line no-undef
+                g = g + obj;
+            } else {
+                // eslint-disable-next-line no-undef
+                g = g + "\n" + obj;
+            }
+        }
+        return g;
+    };
+
+    return {
+        all,
+        add,
+        markAsComplete,
+        overdue,
+        dueToday,
+        dueLater,
+        toDisplayableList,
+    };
+};
+
+module.exports = todoList;
