@@ -1,80 +1,79 @@
 /* eslint-disable no-undef */
 const todoList = () => {
-    const all = [];
-    const add = (todoItem) => {
-        all.push(todoItem);
-    };
-    const markAsComplete = (index) => {
-        if (index >= 0 && index < all.length) {
-            all[index].completed = true;
-        } else {
-            throw new Error('Invalid index');
-        }
-    };
+  all = [];
+  const add = (todoItem) => {
+    all.push(todoItem);
+  };
+  const markAsComplete = (index) => {
+    all[index].completed = true;
+  };
 
-    const overdue = () => {
-        return all.filter(
-            (item) => item.dueDate < new Date().toLocaleDateString("en-CA")
-        );
-    };
+  const overdue = () => {
+    // Write the date check condition here and return the array
+    // of overdue items accordingly.
+    let dt = new Date();
+    dt = dt.toISOString().split("T")[0];
+    arr = [];
+    all.forEach((i) => {
+      if (i.dueDate < dt) arr.push(i);
+    });
+    return arr;
+  };
 
-    const dueToday = () => {
-        return all.filter(
-            (item) => item.dueDate === new Date().toLocaleDateString("en-CA")
-        );
-    };
+  const dueToday = () => {
+    // Write the date check condition here and return the array
+    // of todo items that are due today accordingly.
+    let dt = new Date();
+    dt = dt.toISOString().split("T")[0];
+    arr = [];
+    all.forEach((i) => {
+      if (i.dueDate == dt) arr.push(i);
+    });
+    return arr;
+  };
 
-    const dueLater = () => {
-        return all.filter(
-            (item) => item.dueDate > new Date().toLocaleDateString("en-CA")
-        );
-    };
+  const dueLater = () => {
+    // Write the date check condition here and return the array
+    // of todo items that are due later accordingly.
+    let dt = new Date();
+    dt = dt.toISOString().split("T")[0];
+    arr = [];
+    all.forEach((i) => {
+      if (i.dueDate > dt) arr.push(i);
+    });
+    return arr;
+  };
 
-    const toDisplayableList = (list) => {
-        const dsl = [];
-        list.forEach((element) => {
-            if (element.dueDate === today) {
-                if (element.completed === true) {
-                    const a = "[x] " + element.title;
-                    dsl.push(a);
-                } else {
-                    const a = "[ ] " + element.title;
-                    dsl.push(a);
-                }
-            } else {
-                if (element.completed === true) {
-                    const a = "[x] " + element.title + " " + element.dueDate;
-                    dsl.push(a);
-                } else {
-                    const a = "[ ] " + element.title + " " + element.dueDate;
-                    dsl.push(a);
-                }
-            }
-        });
-        let g = "";
-        for (let i = 0; i < dsl.length; i++) {
-            // eslint-disable-next-line no-undef
-            obj = dsl[i];
-            if (i === 0) {
-                // eslint-disable-next-line no-undef
-                g = g + obj;
-            } else {
-                // eslint-disable-next-line no-undef
-                g = g + "\n" + obj;
-            }
-        }
-        return g;
-    };
+  const toDisplayableList = (list) => {
+    // Format the To-Do list here, and return the output string
+    // as per the format given above.
+    let dt = new Date();
+    dt = dt.toISOString().split("T")[0];
+    arr = [];
+    list.forEach((i) => {
+      if (i.completed && i.dueDate != dt) {
+        arr.push(`[x]` + ` ` + i.title + ` ` + i.dueDate);
+      } else if (i.completed && i.dueDate == dt) {
+        arr.push(`[x]` + ` ` + i.title);
+      } else if (i.completed == false && i.dueDate == dt) {
+        arr.push(`[ ]` + ` ` + i.title);
+      } else {
+        arr.push(`[ ]` + ` ` + i.title + ` ` + i.dueDate);
+      }
+    });
+    return arr.join("\n").toString();
+  };
 
-    return {
-        all,
-        add,
-        markAsComplete,
-        overdue,
-        dueToday,
-        dueLater,
-        toDisplayableList,
-    };
+  return {
+    all,
+    add,
+    markAsComplete,
+    overdue,
+    dueToday,
+    dueLater,
+    toDisplayableList,
+  };
 };
+
 
 module.exports = todoList;
