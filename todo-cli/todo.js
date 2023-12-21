@@ -2,70 +2,66 @@
 const todoList = () => {
   all = [];
   const add = (todoItem) => {
+    
     all.push(todoItem);
   };
   const markAsComplete = (index) => {
     all[index].completed = true;
   };
-
   const overdue = () => {
-    // Write the date check condition here and return the array
-    // of overdue items accordingly.
-    let dt = new Date();
-    dt = dt.toISOString().split("T")[0];
-    arr = [];
+    let s = new Date();
+    s = s.toISOString().split("T")[0];
+    array = [];
     all.forEach((i) => {
-      if (i.dueDate < dt) arr.push(i);
+      if (i.dueDate < s) array.push(i);
     });
-    return arr;
+    return array;
   };
-
-  const dueToday = () => {
-    // Write the date check condition here and return the array
-    // of todo items that are due today accordingly.
-    let dt = new Date();
-    dt = dt.toISOString().split("T")[0];
-    arr = [];
+const dueToday = () => {
+    let s = new Date();
+    s = s.toISOString().split("T")[0];
+    array = [];
     all.forEach((i) => {
-      if (i.dueDate == dt) arr.push(i);
-    });
-    return arr;
-  };
 
-  const dueLater = () => {
-    // Write the date check condition here and return the array
-    // of todo items that are due later accordingly.
-    let dt = new Date();
-    dt = dt.toISOString().split("T")[0];
-    arr = [];
+      if (i.dueDate == s) array.push(i);
+    });
+    return array;
+  };
+const dueLater = () => {
+    let s = new Date();
+    s = s.toISOString().split("T")[0];
+    array = [];
     all.forEach((i) => {
-      if (i.dueDate > dt) arr.push(i);
+      
+      if (i.dueDate > s) array.push(i);
     });
-    return arr;
+    return array;
   };
-
-  const toDisplayableList = (list) => {
-    // Format the To-Do list here, and return the output string
-    // as per the format given above.
-    let dt = new Date();
-    dt = dt.toISOString().split("T")[0];
-    arr = [];
+const toDisplayableList = (list) => {
+    let s = new Date();
+  
+    s = s.toISOString().split("T")[0];
+    array = [];
     list.forEach((i) => {
-      if (i.completed && i.dueDate != dt) {
-        arr.push(`[x]` + ` ` + i.title + ` ` + i.dueDate);
-      } else if (i.completed && i.dueDate == dt) {
-        arr.push(`[x]` + ` ` + i.title);
-      } else if (i.completed == false && i.dueDate == dt) {
-        arr.push(`[ ]` + ` ` + i.title);
-      } else {
-        arr.push(`[ ]` + ` ` + i.title + ` ` + i.dueDate);
+      if (i.completed && i.dueDate != s) {
+        array.push(`[x]` + ` ` + i.title + ` ` + i.dueDate);
+      } 
+      else if (i.completed && i.dueDate == s) {
+        array.push(`[x]` + ` ` + i.title);
+      } 
+      else if (i.completed == false && i.dueDate == s) {
+        array.push(`[ ]` + ` ` + i.title);
+      } 
+      else {
+        array.push(`[ ]` + ` ` + i.title + ` ` + i.dueDate);
       }
     });
-    return arr.join("\n").toString();
+    return array.join("\n").toString();
   };
-
   return {
+    
     all,
+    
     add,
     markAsComplete,
     overdue,
@@ -73,7 +69,12 @@ const todoList = () => {
     dueLater,
     toDisplayableList,
   };
+  
 };
+ // ####################################### #
+  // DO NOT CHANGE ANYTHING BELOW THIS LINE. #
+  // ####################################### #
+  
 
 
 module.exports = todoList;
