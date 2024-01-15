@@ -10,5 +10,15 @@
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "prepare": "cd .. && husky install todo-cli/.husky"
-  }
+  },
+  "dependencies": {
+    "pg": "^8.11.3",
+    "test": "^3.3.0"
+  },
+  "name": "todo-cli",
+  "version": "1.0.0",
+  "main": "TodoModel.js",
+  "author": "Harshith333 <somaharshithkumar334@gmail.com>",
+  "license": "ISC",
+  "description": ""
 }
