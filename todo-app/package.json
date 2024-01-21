@@ -7,7 +7,7 @@
      "start": "nodemon -e js,ejs",
     "start:prod": "node index.js",
     "test": "jest",
-    "prepare": "cd .. && husky install todo-app/.husky",
+    "prepare":"husky install",
     "start:db": "sudo service postgresql start"
   },
   "author": "",
