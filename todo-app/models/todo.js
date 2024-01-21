@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
     
+    static getTodos() {
+      return this.findAll();
+    }
     static async getTodos() {
       const all = await this.findAll();
       
