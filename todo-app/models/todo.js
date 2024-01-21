@@ -1,3 +1,4 @@
+
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
@@ -10,11 +11,28 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-
     static addTodo({ title, dueDate }) {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
-
+    static async getTodos() {
+      const all = await this.findAll();
+      if (all.length >= 1) {
+        return all;
+      } else {
+        await this.addTodo({
+          title: "Buy milk",
+          dueDate: new Date().toISOString(),
+          completed: false,
+        });
+        await this.addTodo({
+          title: "Buy xbox",
+          dueDate: new Date().toISOString(),
+          completed: false,
+        });
+        const allTodos = await this.findAll();
+        return allTodos;
+      }
+    }
     markAsCompleted() {
       return this.update({ completed: true });
     }
