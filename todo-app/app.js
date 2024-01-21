@@ -1,4 +1,3 @@
-
 const express = require("express");
 const app = express();
 const { Todo } = require("./models");
@@ -24,6 +23,8 @@ app.get("/todos", async function (_request, response) {
   }
 });
 
+
+
 app.get("/todos/:id", async function (request, response) {
   try {
     const todo = await Todo.findByPk(request.params.id);
@@ -34,6 +35,8 @@ app.get("/todos/:id", async function (request, response) {
   }
 });
 
+
+
 app.post("/todos", async function (request, response) {
   try {
     const todo = await Todo.addTodo(request.body);
@@ -43,6 +46,8 @@ app.post("/todos", async function (request, response) {
     return response.status(422).json(error);
   }
 });
+
+
 
 app.put("/todos/:id/markAsCompleted", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
@@ -55,9 +60,12 @@ app.put("/todos/:id/markAsCompleted", async function (request, response) {
   }
 });
 
+
+
 app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   const todo = await Todo.findByPk(request.params.id);
+  
   try {
     if (todo) {
       todo.destroy();
