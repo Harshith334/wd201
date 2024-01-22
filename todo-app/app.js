@@ -52,13 +52,19 @@ app.get("/todos/:id", async function (request, response) {
 
 
 
-app.post("/todos", async function (request, response) {
+app.post("/todos", async (request, response) => {
+  console.log("Creating a todo", request.body);
   try {
-    const todo = await Todo.addTodo(request.body);
-    return response.json(todo).status(200);
+    const todo = await Todo.build({
+      title: request.body.title,
+      dueDate: request.body.dueDate,
+      completed: false,
+    }).save();
+    return response.json(todo);
   } catch (error) {
     console.log(error);
-    return response.status(422).json(error);
+    console.log("Validation error:", error);
+    return response.status(427).json(error);
   }
 });
 
