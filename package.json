@@ -1,5 +1,5 @@
 {
-<<<<<<< HEAD
+
   "devDependencies": {
     "husky": "^8.0.3"
   },
@@ -11,7 +11,7 @@
   "scripts": {
     "prepare": "cd .. && husky install todo-cli/.husky",
     "pre-commit": "lint-staged"
-=======
+
   "name": "todo-app",
   "version": "1.0.0",
   "description": "",
@@ -47,6 +47,6 @@
     "nodemon": "^3.0.3",
     "sequelize-cli": "^6.6.2",
     "supertest": "^6.3.4"
->>>>>>> ff9710835aba1f505bf544331b9f575f8f3f6398
+
   }
 }
