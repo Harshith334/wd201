@@ -143,15 +143,12 @@
         </div>
     </div>
   
-   <table>
-    <% for( var i =0; i < allTodos.length; i++){ %>
-    <tr>
-        <td>
-            <%= allTodos[i].title %>
-        </td>
-    </tr>
-<% } %>
-   </table>
+  <div>
+                <%- include('todos.ejs', { title: "Overdue" , Due: overdueTodos, id: "count-overdue" }) %>
+                <%- include('todos.ejs', { title: "Due Today" , Due: dueTodayTodos, id: "count-due-today" }) %>
+                <%- include('todos.ejs', { title: "Due Later", Due: dueLaterTodos, id: "count-due-later" }) %>
+                <%- include('todos.ejs', { title: "Completed Items", Due: completedTodos, id: "count-completed" }) %>
+            </div>
  <%- include("footer.ejs") %>
 
 
