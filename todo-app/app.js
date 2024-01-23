@@ -1,46 +1,30 @@
- /* eslint-disable semi */
-/* eslint-disable quotes */
 const express = require("express");
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
-const path = require("path");
 app.use(bodyParser.json());
-app.use(express.urlencoded({extended: false}));
+const path = require("path");
+
 
 app.set("view engine","ejs");
-app.use(express.static(path.join(__dirname,"public")));
-
-app.get("/",async (request,response) => {
-  const overdue = await Todo.overdue();
-  const dueToday = await Todo.dueToday();
-  const dueLater = await Todo.dueLater();
-  response.render("index",{
-    title: "Todo application",
-    overdue,
-    dueToday,
-    dueLater
-  });
-});
-
-app.get("/todos",(request,response) => {
-  console.log("Todo list");
-});
-
-
-
-app.post("/todos", async (request, response) => {
-  console.log("Creating a todo",request.body);
-  try {
-    const todo = await Todo.addTodo({
-      title: request.body.title,
-      dueDate: request.body.dueDate,
+app.get("/",async (request,response)=>{
+  const allTodos = await Todo.getTodos();
+  if(request.accepts("html")){
+    response.render('index',{
+      allTodos
     });
-    return response.redirect("/");
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
   }
+  else {
+    response.json({
+      allTodos
+    })
+  }
+});
+app.use(express.static(path.join(__dirname,'public')));
+
+
+app.get("/", function (request, response) {
+  response.send("Hello World");
 });
 
 app.get("/todos", async function (_request, response) {
@@ -54,6 +38,8 @@ app.get("/todos", async function (_request, response) {
   }
 });
 
+
+
 app.get("/todos/:id", async function (request, response) {
   try {
     const todo = await Todo.findByPk(request.params.id);
@@ -61,6 +47,24 @@ app.get("/todos/:id", async function (request, response) {
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
+  }
+});
+
+
+
+app.post("/todos", async (request, response) => {
+  console.log("Creating a todo", request.body);
+  try {
+    const todo = await Todo.build({
+      title: request.body.title,
+      dueDate: request.body.dueDate,
+      completed: false,
+    }).save();
+    return response.json(todo);
+  } catch (error) {
+    console.log(error);
+    console.log("Validation error:", error);
+    return response.status(427).json(error);
   }
 });
 
@@ -77,9 +81,12 @@ app.put("/todos/:id/markAsCompleted", async function (request, response) {
   }
 });
 
+
+
 app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   const todo = await Todo.findByPk(request.params.id);
+  
   try {
     if (todo) {
       todo.destroy();
