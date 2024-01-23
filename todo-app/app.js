@@ -5,30 +5,38 @@ const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
+const { title } = require("process");
 app.use(bodyParser.json());
 
 
 app.set("view engine", "ejs");
-app.get("/", async (request, response) => {
-  const allTodos = await Todo.allTodos();
-  if(request.accepts("html")) {
-    response.render('index', {
-      allTodos
-    });
-  }
+  app.get("/", async (request, response) => {
+      const overdue = await Todo.getOverdueTodos();
+      const duetoday = await Todo.getDueTodayTodos();
+      const duelater = await Todo.getDueLaterTodos();
+  
+      if (request.accepts("html")) {
+           response.render("index",{
+        title: "Todo application", 
+          overdue,
+          duetoday,
+          duelater,
+        });
+      }
   else {
     response.json({
-      allTodos
+      overdue,
+      duetoday,
+      duelater,
     })
   }
-  
 });
 app.use(express.static(path.join(__dirname,'public')));
 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
   try {
-    const todos = await Todo.findAll();
+    await Todo.findAll();
     return response.send(todos);
   } catch (err) {
     console.log(err);
@@ -59,7 +67,7 @@ app.post("/todos", async (request, response) => {
     return response.status(422).json(error);
   }
 });
-
+//app.js
 app.put("/todos/:id/markAsCompleted", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
   try {
@@ -71,20 +79,18 @@ app.put("/todos/:id/markAsCompleted", async function (request, response) {
   }
 });
 
-app.delete("/todos/:id", async function (request, response) {
+app.delete("/todos/:id", async (request, response) => {
   console.log("We have to delete a Todo with ID: ", request.params.id);
-  const todo = await Todo.findByPk(request.params.id);
+  
   try {
-    if (todo) {
-      todo.destroy();
-      return response.send(true);
-    } else {
-      return response.send(false);
+ 
+     await Todo.remove(request.params.id);
+      return response.json({success: true});
     }
-  } catch (error) {
-    console.log(error);
+  catch (error) {
     return response.status(422).json(error);
   }
+
 });
 
 module.exports = app;
