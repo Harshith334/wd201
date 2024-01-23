@@ -7,32 +7,35 @@
     <link rel="stylesheet" href="./css/styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        function updateTodo(id){
-            fetch('/todos/${id}/markAsCompleted' ,{
+        function updateTodo(id) {
+            console.log("Called updateTodo");
+            fetch(/todos/${id}/markAsCompleted, {
                 method: "put",
-                headers: {"Content-Type":"application/json"},
+                headers: { "Content-Type": "application/json" },
             })
-              .then((res) => {
-                if (res.ok){
-                    window.location.reload();
-                }
-              })
-             .catch((err) => console.error(err));
+                .then((res) => {
+                    if (res.ok) {
+                        window.location.reload();
+                        console.log("Marked as completed");
+                    }
+                })
+                .catch((err) => console.error(err));
         }
-    function deleteTodo(id) {
-      fetch(`/todos/${id}`, {
-        method: "delete",
-        headers: { "Content-Type": "application/json" },
-             
-      })
-        .then((res) => {
-          if (res.ok) {
-            window.location.reload();
-          }
-        })
-        .catch((err) => console.error(err));
-    }
-        </script>
+        function deleteTodo(id) {
+            console.log("Called deleteTodo");
+            fetch(/todos/${id}, {
+                method: "delete",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then((res) => {
+                    if (res.ok) {
+                        console.log("Deleted");
+                        window.location.reload();
+                    }
+                })
+                .catch((err) => console.error(err));
+        }
+    </script>
     
     <title>To-Do Manager</title>
 </head>
