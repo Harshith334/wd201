@@ -1,12 +1,17 @@
 /* eslint-disable semi */
 /* eslint-disable quotes */
+var csrf = require("csurf");
 const express = require("express");
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 const path = require("path");
 const { title } = require("process");
 app.use(bodyParser.json());
+app.use(express.urlencoded({extended:false}));
+app.use(cookieParser("shh! some secret string"));
+app.use(csrf({ cookie:true}))
 
 
 app.set("view engine", "ejs");
