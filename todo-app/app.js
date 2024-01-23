@@ -11,9 +11,9 @@ app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
   app.get("/", async (request, response) => {
-      const overdue = await Todo.getOverdueTodos();
-      const duetoday = await Todo.getDueTodayTodos();
-      const duelater = await Todo.getDueLaterTodos();
+      const overdue = await Todo.getOverdueTodos;
+      const duetoday = await Todo.getDueTodayTodos;
+      const duelater = await Todo.getDueLaterTodos;
   
       if (request.accepts("html")) {
            response.render("index",{
