@@ -1,39 +1,95 @@
-'use strict';
+"use strict";
+const { Model, Op } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  class Todo extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      Todo.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
+      // define association here
+    }
+    static addTodo({ title, dueDate, userId }) {
+      return this.create({ title, dueDate, completed: false, userId });
+    }
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
+    setCompletionStatus(status) {
+      return this.update({ completed: status });
+    }
 
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+    static getTodos() {
+      return this.findAll();
+    }
+    static overdue(userId) {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.lt]: new Date(),
+          },
+          completed: false,
+          userId,
+        },
+      });
+    }
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+    static dueToday(userId) {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.eq]: new Date(),
+          },
+          completed: false,
+          userId,
+        },
+      });
+    }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+    static dueLater(userId) {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.gt]: new Date(),
+          },
+          completed: false,
+          userId,
+        },
+      });
+    }
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+    static completedItems(userId) {
+      return this.findAll({
+        where: {
+          completed: true,
+          userId,
+        },
+      });
+    }
+    static removeItem(todoId, userId) {
+      return this.destroy({
+        where: {
+          id: todoId,
+          userId,
+        },
+      });
+    }
   }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+  Todo.init(
+    {
+      title: {
+        type: DataTypes.STRING,
+        validate: { notEmpty: true, len: 5 },
+      },
+      dueDate: DataTypes.DATEONLY,
+      completed: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: "Todo",
+    }
+  );
+  return Todo;
+};
