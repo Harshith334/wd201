@@ -18,13 +18,13 @@
           <div class="flex gap-2 py-4">
             <div class="flex-auto">
               <input type="text" placeholder="What's next?" name="title"
-                class="border border-blue-300 text-green-900 w-full rounded p-2 text-sm leading-4" required />
+                class="border border-gray-300 text-gray-900 w-full rounded p-2 text-sm leading-4" required />
             </div>
             <div class="flex-auto">
-              <input type="date" class="text-black" name="dueDate" />
+              <input type="date" class="text-black w-full rounded p-2 text-sm leading-4" name="dueDate" />
             </div>
             <div class="flex-none">
-              <button type="submit" class="bg-green-600 text-white px-5 py-1.5 rounded font-medium mr-2 mb-2">
+              <button type="submit" class="bg-orange-600 text-yellow px-5 py-1.5 rounded font-medium mr-2 mb-2">
                 Add
               </button>
             </div>
@@ -38,12 +38,15 @@
   const form = document.querySelector("form");
   form.onsubmit = async function (e) {
     e.preventDefault();
+
+    // Collect form data
     const formData = new FormData(form);
     const formObject = {};
     formData.forEach((value, key) => {
       formObject[key] = value;
     });
 
+    // Send the form data as JSON
     if (formObject.title !== "") {
       const res = await fetch("/todos", {
         method: "POST",
@@ -54,9 +57,12 @@
         body: JSON.stringify(formObject),
       });
       if (res.ok) {
+        // Handle success, e.g., redirect or update UI
         console.log("Todo added successfully");
+        // window.location.href = "/"; // Redirect to the desired page
         window.location.reload();
       } else {
+        // Handle error response
         const data = await res.json();
         console.error("Error adding todo:", data);
       }
@@ -77,6 +83,8 @@
     }
   }
   function deleteTodo(id) {
+    // event.preventDefault();
+    // event.stopPropagation();
     console.log("Deleting Todo", id)
     fetch(`/todos/${id}`, {
       method: "delete",
