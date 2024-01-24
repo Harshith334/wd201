@@ -5,14 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,ejs",
-    "test": "jest",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
     "start:db": "sudo service postgresql start",
     "start:prod": "node index.js",
     "db:create:test": "NODE_ENV=test npx sequelize-cli db:create",
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
-    "test": "NODE_ENV=test jest --detectOpenHandles",
-     "prepare": "cd .. && husky install todo-app/.husky"
-    
+    "prepare": "cd .. && husky install todo-app/.husky"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +19,7 @@
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
+    "csurf": "^1.11.0",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "mysql2": "^3.7.1",
@@ -35,6 +34,7 @@
     "ejs": "^3.1.9",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
+    "mocha": "^10.2.0",
     "nodemon": "^3.0.3",
     "supertest": "^6.3.4"
   }
