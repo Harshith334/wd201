@@ -1,15 +1,16 @@
+/* eslint-disable semi */
+/* eslint-disable quotes */
 const csurf = require("csurf");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
-const { Todo } = require("./models");
-
 app.use(express.json());
+const { Todo } = require("./models");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-app.set("view engine", "ejs");
 app.use(cookieParser("it's a secret"));
 app.use(csurf({ cookie: true }));
+app.set("view engine", "ejs");
 
 app.get("/", async function (req, res) {
   const allTodos = await Todo.getTodos();
